@@ -1,0 +1,19 @@
+{
+  "name": "crmgraphql",
+  "version": "1.0.0",
+  "description": "crm with react n gql",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon ."
+  },
+  "author": "r2d2",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^3.10.2",
+    "graphql": "^16.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}

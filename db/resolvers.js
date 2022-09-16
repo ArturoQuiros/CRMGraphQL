@@ -1,6 +1,8 @@
 //Resolvers
 const resolvers = {
-  Query: {},
+  Query: {
+    obtenerCurso: () => "Hola",
+  },
 };
 
 module.exports = resolvers;

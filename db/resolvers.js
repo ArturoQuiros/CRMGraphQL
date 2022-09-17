@@ -1,4 +1,5 @@
 const Usuario = require("../models/usuarios");
+const bcryptjs = require("bcryptjs");
 
 const resolvers = {
   Query: {
@@ -14,6 +15,9 @@ const resolvers = {
         throw new Error("El email ya está en uso");
       }
       //!Hashear el password
+      const salt = await bcryptjs.genSalt(10);
+      input.password = await bcryptjs.hash(password, salt);
+
       //!Guardar en BD
       try {
         const nuevoUsuario = new Usuario(input);

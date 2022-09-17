@@ -27,6 +27,17 @@ const resolvers = {
         throw new Error(error);
       }
     },
+    autenticarUsuario: async (_, { input }, ctx) => {
+      //!Revisar si ya está registrado
+      const { email, password } = input;
+      const estaCreado = await Usuario.findOne({ email });
+
+      if (!estaCreado) {
+        throw new Error("El usuario no existe");
+      }
+
+      //!Autenticar con password
+    },
   },
 };
 

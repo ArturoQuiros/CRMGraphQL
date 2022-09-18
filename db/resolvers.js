@@ -94,6 +94,20 @@ const resolvers = {
         throw new Error(error);
       }
     },
+    actualizarProducto: async (_, { id, input }, ctx) => {
+      //!existe en bd?
+      let productoBD = await Producto.findById(id);
+      if (!productoBD) {
+        throw new Error("Producto no encontrado");
+      }
+
+      //!actualiza en bd
+      productoBD = await Producto.findOneAndUpdate({ _id: id }, input, {
+        new: true,
+      });
+
+      return productoBD;
+    },
   },
 };
 

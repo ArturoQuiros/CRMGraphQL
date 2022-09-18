@@ -1,5 +1,5 @@
 require("dotenv").config({ path: "variables.env" });
-const Usuario = require("../models/usuarios");
+const Usuario = require("../models/usuario");
 const Producto = require("../models/producto");
 
 const bcryptjs = require("bcryptjs");

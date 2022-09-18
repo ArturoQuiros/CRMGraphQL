@@ -108,6 +108,18 @@ const resolvers = {
 
       return productoBD;
     },
+    eliminarProducto: async (_, { id }, ctx) => {
+      //!existe en bd?
+      let productoBD = await Producto.findById(id);
+      if (!productoBD) {
+        throw new Error("Producto no encontrado");
+      }
+
+      //!actualiza en bd
+      productoBD = await Producto.findByIdAndDelete({ _id: id });
+
+      return "Producto eliminado";
+    },
   },
 };
 

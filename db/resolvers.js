@@ -19,6 +19,14 @@ const resolvers = {
       const usuarioId = await jwt.verify(token, process.env.JWT_SEED);
       return usuarioId;
     },
+    obtenerProductos: async (_, { token }, ct) => {
+      try {
+        const productos = await Producto.find({});
+        return productos;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
   Mutation: {
     nuevoUsuario: async (_, { input }, ctx) => {

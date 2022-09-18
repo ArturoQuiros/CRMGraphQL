@@ -27,6 +27,18 @@ const resolvers = {
         throw new Error(error);
       }
     },
+    obtenerProducto: async (_, { id }, ct) => {
+      try {
+        //!existe en bd?
+        const productoBD = await Producto.findById(id);
+        if (!productoBD) {
+          throw new Error("Producto no encontrado");
+        }
+        return productoBD;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
   Mutation: {
     nuevoUsuario: async (_, { input }, ctx) => {

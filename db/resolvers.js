@@ -65,6 +65,15 @@ const resolvers = {
         token: crearToken(estaCreado, process.env.JWT_SEED, "24h"),
       };
     },
+    nuevoProducto: async (_, { input }, ctx) => {
+      try {
+        const nuevoProducto = new Producto(input);
+        const resultado = await nuevoProducto.save();
+        return resultado;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
 };
 

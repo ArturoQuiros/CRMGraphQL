@@ -4,6 +4,10 @@ const { gql } = require("apollo-server");
 const typeDefs = gql`
   #------------------------Types
 
+  type Token {
+    token: String
+  }
+
   type Producto {
     id: ID
     nombre: String
@@ -12,15 +16,21 @@ const typeDefs = gql`
     creado: String
   }
 
-  type Token {
-    token: String
-  }
-
   type Usuario {
     id: ID
     nombre: String
     apellido: String
     email: String
+    creado: String
+  }
+
+  type Cliente {
+    id: ID
+    nombre: String
+    apellido: String
+    email: String
+    empresa: String
+    vendedor: ID
     creado: String
   }
 
@@ -44,6 +54,14 @@ const typeDefs = gql`
     password: String!
   }
 
+  input ClienteInput {
+    nombre: String!
+    apellido: String!
+    email: String!
+    empresa: String!
+    telefono: String
+  }
+
   #------------------------Mutation
 
   type Mutation {
@@ -55,6 +73,9 @@ const typeDefs = gql`
     nuevoProducto(input: ProductoInput): Producto
     actualizarProducto(id: ID!, input: ProductoInput): Producto
     eliminarProducto(id: ID!): String
+
+    #Clientes
+    nuevoCliente(input: ClienteInput): Cliente
   }
 
   #------------------------Query
@@ -66,6 +87,8 @@ const typeDefs = gql`
     #Productos
     obtenerProductos: [Producto]
     obtenerProducto(id: ID!): Producto
+
+    #Clientes
   }
 `;
 

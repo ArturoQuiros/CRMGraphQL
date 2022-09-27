@@ -42,6 +42,24 @@ const resolvers = {
         throw new Error(error);
       }
     },
+    obtenerCliente: async (_, { token }, ct) => {
+      try {
+        //!existe en bd?
+        const clienteBD = await Cliente.findById(id);
+        if (!clienteBD) {
+          throw new Error("Cliente no encontrado");
+        }
+
+        //!puede verlo?
+        if (clienteBD.vendedor.toString() !== ct.usuario.id) {
+          throw new Error("No Autorizado");
+        }
+
+        return clienteBD;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
     obtenerClientes: async (_, { token }, ct) => {
       try {
         const productos = await Cliente.find({});

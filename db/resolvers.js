@@ -42,6 +42,14 @@ const resolvers = {
         throw new Error(error);
       }
     },
+    obtenerClientes: async (_, { token }, ct) => {
+      try {
+        const productos = await Cliente.find({});
+        return productos;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
   Mutation: {
     nuevoUsuario: async (_, { input }, ctx) => {
@@ -124,7 +132,7 @@ const resolvers = {
       return "Producto eliminado";
     },
     nuevoCliente: async (_, { input }, ctx) => {
-      //console.log("contexto: " + ctx);
+      console.log("contexto: " + ctx);
       //*Revisar si ya está registrado
       const { nombre, apellido, email, empresa, telefono } = input;
       const estaCreado = await Cliente.findOne({ email });
@@ -135,7 +143,7 @@ const resolvers = {
 
       //*asignar vendendor
       let nuevoCliente = new Cliente(input);
-      nuevoCliente.vendedor = "6327a5d9099c6bd076754624";
+      nuevoCliente.vendedor = ctx.usuario.id;
 
       //*Guardar en BD
       try {

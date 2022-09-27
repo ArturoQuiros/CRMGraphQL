@@ -123,6 +123,7 @@ const resolvers = {
       return "Producto eliminado";
     },
     nuevoCliente: async (_, { input }, ctx) => {
+      //console.log("contexto: " + ctx);
       //*Revisar si ya está registrado
       const { nombre, apellido, email, empresa, telefono } = input;
       const estaCreado = await Cliente.findOne({ email });

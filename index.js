@@ -1,9 +1,9 @@
+require("dotenv").config({ path: "variables.env" });
 const { ApolloServer, gql } = require("apollo-server");
 const typeDefs = require("./db/schema");
 const resolvers = require("./db/resolvers");
 const conectarDB = require("./config/db");
 
-require("dotenv").config({ path: "variables.env" });
 const jwt = require("jsonwebtoken");
 
 //conectar a la BD
@@ -13,14 +13,18 @@ conectarDB();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => {
+  context: async ({ req }) => {
     //console.log(req.headers["authorization"]);
     const token = req.headers["authorization"] || "";
+
     if (token) {
       try {
-        const usuario = jwt.verify(token, process.env.JWT_SEED);
+        const usuario = await jwt.verify(token, process.env.JWT_SEED);
+        console.log(usuario);
+
+        //return { usuario };
       } catch (error) {
-        console.log(error);
+        console.log("ERROR al validar " + token);
       }
     }
   },

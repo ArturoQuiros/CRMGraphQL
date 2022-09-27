@@ -20,9 +20,7 @@ const server = new ApolloServer({
     if (token) {
       try {
         const usuario = await jwt.verify(token, process.env.JWT_SEED);
-        console.log(usuario);
-
-        //return { usuario };
+        return { usuario };
       } catch (error) {
         console.log("ERROR al validar " + token);
       }

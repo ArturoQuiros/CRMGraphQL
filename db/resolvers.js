@@ -51,7 +51,6 @@ const resolvers = {
         }
 
         //!puede verlo?
-        console.log({ ct });
         if (clienteBD.vendedor.toString() !== ct.usuario.id) {
           throw new Error("No Autorizado");
         }
@@ -181,6 +180,37 @@ const resolvers = {
       } catch (error) {
         throw new Error(error);
       }
+    },
+    actualizarCliente: async (_, { id, input }, ctx) => {
+      //!existe en bd?
+      let ClienteBD = await Cliente.findById(id);
+      if (!ClienteBD) {
+        throw new Error("Cliente no encontrado");
+      }
+
+      //!puede verlo?
+      if (ClienteBD.vendedor.toString() !== ct.usuario.id) {
+        throw new Error("No Autorizado");
+      }
+
+      //!actualiza en bd
+      ClienteBD = await Cliente.findOneAndUpdate({ _id: id }, input, {
+        new: true,
+      });
+
+      return ClienteBD;
+    },
+    eliminarCliente: async (_, { id }, ctx) => {
+      //!existe en bd?
+      let ClienteBD = await Cliente.findById(id);
+      if (!ClienteBD) {
+        throw new Error("Cliente no encontrado");
+      }
+
+      //!actualiza en bd
+      ClienteBD = await Cliente.findByIdAndDelete({ _id: id });
+
+      return "Cliente eliminado";
     },
   },
 };

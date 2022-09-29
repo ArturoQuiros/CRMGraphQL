@@ -207,6 +207,11 @@ const resolvers = {
         throw new Error("Cliente no encontrado");
       }
 
+      //!puede verlo?
+      if (ClienteBD.vendedor.toString() !== ct.usuario.id) {
+        throw new Error("No Autorizado");
+      }
+
       //!actualiza en bd
       ClienteBD = await Cliente.findByIdAndDelete({ _id: id });
 

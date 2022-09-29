@@ -42,7 +42,7 @@ const resolvers = {
         throw new Error(error);
       }
     },
-    obtenerCliente: async (_, { token }, ct) => {
+    obtenerCliente: async (_, { id }, ct) => {
       try {
         //!existe en bd?
         const clienteBD = await Cliente.findById(id);
@@ -51,6 +51,7 @@ const resolvers = {
         }
 
         //!puede verlo?
+        console.log({ ct });
         if (clienteBD.vendedor.toString() !== ct.usuario.id) {
           throw new Error("No Autorizado");
         }

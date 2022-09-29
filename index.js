@@ -23,7 +23,7 @@ const server = new ApolloServer({
         //console.log(usuario);
         return { usuario };
       } catch (error) {
-        console.log(error);
+        console.log("Error en JWT");
       }
     }
   },

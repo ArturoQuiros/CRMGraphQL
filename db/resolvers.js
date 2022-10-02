@@ -3,6 +3,7 @@ require("dotenv").config({ path: "variables.env" });
 const Usuario = require("../models/usuario");
 const Producto = require("../models/producto");
 const Cliente = require("../models/cliente");
+const Pedido = require("../models/pedido");
 
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -208,7 +209,7 @@ const resolvers = {
       }
 
       //!puede verlo?
-      if (ClienteBD.vendedor.toString() !== ct.usuario.id) {
+      if (ClienteBD.vendedor.toString() !== ctx.usuario.id) {
         throw new Error("No Autorizado");
       }
 
@@ -216,6 +217,42 @@ const resolvers = {
       ClienteBD = await Cliente.findByIdAndDelete({ _id: id });
 
       return "Cliente eliminado";
+    },
+    nuevoPedido: async (_, { input }, ctx) => {
+      //! existe el cliente?
+      const { cliente } = input;
+      let ClienteBD = await Cliente.findById(cliente);
+
+      if (!ClienteBD) {
+        throw new Error("Cliente no encontrado");
+      }
+
+      //! el cliente es del vendedor?
+      if (ClienteBD.vendedor.toString() !== ctx.usuario.id) {
+        throw new Error("No Autorizado");
+      }
+
+      //! revisar stock de products
+      for await (const articulo of input.pedido) {
+        const { id } = articulo;
+        const producto = await Producto.findById(id);
+
+        if (articulo.cantidad > producto.existencia) {
+          throw new Error(
+            `El artículo ${producto.nombre} excede la cantidad disponible`
+          );
+        }
+      }
+
+      //! Crear el nuevo pedido
+      const nuevoPedido = new Pedido(input);
+
+      //!asignar vendedor
+      nuevoPedido.vendedor = ctx.usuario.id;
+
+      //!guardar en BD
+      const resultado = await nuevoPedido.save();
+      return resultado;
     },
   },
 };

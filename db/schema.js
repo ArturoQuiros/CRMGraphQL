@@ -43,7 +43,7 @@ const typeDefs = gql`
     estado: EstadoPedido
   }
 
-  type PeidoGrupo {
+  type PedidoGrupo {
     id: ID
     cantidad: Int
   }

@@ -241,6 +241,9 @@ const resolvers = {
           throw new Error(
             `El artículo ${producto.nombre} excede la cantidad disponible`
           );
+        } else {
+          //! Restar la cantidad a lo disponible
+          producto.existencia = producto.existencia - articulo.cantidad;
         }
       }
 

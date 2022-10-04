@@ -313,17 +313,19 @@ const resolvers = {
       }
 
       //! Hay Stock?
-      for await (const articulo of input.pedido) {
-        const { id } = articulo;
-        const producto = await Producto.findById(id);
+      if (input.pedido) {
+        for await (const articulo of input.pedido) {
+          const { id } = articulo;
+          const producto = await Producto.findById(id);
 
-        if (articulo.cantidad > producto.existencia) {
-          throw new Error(
-            `El artículo ${producto.nombre} excede la cantidad disponible`
-          );
-        } else {
-          //! Restar la cantidad a lo disponible
-          producto.existencia = producto.existencia - articulo.cantidad;
+          if (articulo.cantidad > producto.existencia) {
+            throw new Error(
+              `El artículo ${producto.nombre} excede la cantidad disponible`
+            );
+          } else {
+            //! Restar la cantidad a lo disponible
+            producto.existencia = producto.existencia - articulo.cantidad;
+          }
         }
       }
 

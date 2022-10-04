@@ -131,6 +131,7 @@ const typeDefs = gql`
 
     #Pedidos
     obtenerPedidos: [Pedido]
+    obtenerPedidosVendedor: [Pedido]
   }
 `;
 

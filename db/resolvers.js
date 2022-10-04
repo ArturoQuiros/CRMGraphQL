@@ -97,6 +97,24 @@ const resolvers = {
         throw new Error(error);
       }
     },
+    obtenerPedido: async (_, { id }, ct) => {
+      try {
+        //!existe en bd?
+        const PedidoBD = await Pedido.findById(id);
+        if (!PedidoBD) {
+          throw new Error("Pedido no encontrado");
+        }
+
+        //!puede verlo?
+        if (PedidoBD.vendedor.toString() !== ct.usuario.id) {
+          throw new Error("No Autorizado");
+        }
+
+        return PedidoBD;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
   Mutation: {
     nuevoUsuario: async (_, { input }, ctx) => {

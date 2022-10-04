@@ -293,6 +293,64 @@ const resolvers = {
       const resultado = await nuevoPedido.save();
       return resultado;
     },
+    actualizarPedido: async (_, { id, input }, ctx) => {
+      //! Existe en bd?
+      let PedidoBD = await Pedido.findById(id);
+      if (!PedidoBD) {
+        throw new Error("Pedido no encontrado");
+      }
+
+      //! Existe el cliente y vendedor?
+      const { cliente } = input;
+      let ClienteBD = await Cliente.findById(cliente);
+      if (!ClienteBD) {
+        throw new Error("Cliente no encontrado");
+      }
+
+      //! Puede verlo?
+      if (PedidoBD.vendedor.toString() !== ct.usuario.id) {
+        throw new Error("No Autorizado");
+      }
+
+      //! Hay Stock?
+      for await (const articulo of input.pedido) {
+        const { id } = articulo;
+        const producto = await Producto.findById(id);
+
+        if (articulo.cantidad > producto.existencia) {
+          throw new Error(
+            `El artículo ${producto.nombre} excede la cantidad disponible`
+          );
+        } else {
+          //! Restar la cantidad a lo disponible
+          producto.existencia = producto.existencia - articulo.cantidad;
+        }
+      }
+
+      //!actualiza en bd
+      PedidoBD = await Pedido.findOneAndUpdate({ _id: id }, input, {
+        new: true,
+      });
+
+      return PedidoBD;
+    },
+    eliminarPedido: async (_, { id }, ctx) => {
+      //!existe en bd?
+      let PedidoBD = await Pedido.findById(id);
+      if (!PedidoBD) {
+        throw new Error("Pedido no encontrado");
+      }
+
+      //!puede verlo?
+      if (PedidoBD.vendedor.toString() !== ctx.usuario.id) {
+        throw new Error("No Autorizado");
+      }
+
+      //!actualiza en bd
+      PedidoBD = await Pedido.findByIdAndDelete({ _id: id });
+
+      return "Pedido eliminado";
+    },
   },
 };
 

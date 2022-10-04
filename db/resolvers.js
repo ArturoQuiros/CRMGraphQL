@@ -79,6 +79,14 @@ const resolvers = {
         throw new Error(error);
       }
     },
+    obtenerPedidos: async (_, { token }, ct) => {
+      try {
+        const pedidos = await Pedido.find({});
+        return pedidos;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
   Mutation: {
     nuevoUsuario: async (_, { input }, ctx) => {

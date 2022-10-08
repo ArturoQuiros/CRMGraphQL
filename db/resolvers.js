@@ -115,6 +115,17 @@ const resolvers = {
         throw new Error(error);
       }
     },
+    obtenerPedidosEstado: async (_, { estado }, ct) => {
+      try {
+        const pedidos = await Pedido.find({
+          vendedor: ct.usuario.id.toString(),
+          estado: estado,
+        });
+        return pedidos;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
   Mutation: {
     nuevoUsuario: async (_, { input }, ctx) => {

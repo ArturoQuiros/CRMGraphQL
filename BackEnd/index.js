@@ -6,7 +6,7 @@ const conectarDB = require("./config/db");
 
 const jwt = require("jsonwebtoken");
 
-//conectar a la BD
+//conectar a la BD :)
 conectarDB();
 
 //server

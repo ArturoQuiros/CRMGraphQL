@@ -146,9 +146,45 @@ const resolvers = {
               as: "cliente",
             },
           },
+          {
+            $sort: { total: -1 },
+          },
         ]);
 
         return clientes;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    obtenerMejoresVendedores: async () => {
+      try {
+        const vendedores = await Pedido.aggregate([
+          {
+            $match: { estado: "COMPLETADO" },
+          },
+          {
+            $group: {
+              _id: "$vendedor",
+              total: { $sum: "$total" },
+            },
+          },
+          {
+            $lookup: {
+              from: "usuarios",
+              localField: "_id",
+              foreignField: "_id",
+              as: "vendedor",
+            },
+          },
+          {
+            $sort: { total: -1 },
+          },
+          {
+            $limit: 3,
+          },
+        ]);
+
+        return vendedores;
       } catch (error) {
         throw new Error(error);
       }

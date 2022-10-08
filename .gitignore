@@ -1,3 +1,5 @@
+#My Custom Git Ignore
+
 .vscode
 node_modules 
 variables.env

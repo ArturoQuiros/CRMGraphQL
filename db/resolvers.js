@@ -126,6 +126,33 @@ const resolvers = {
         throw new Error(error);
       }
     },
+    obtenerMejoresClientes: async () => {
+      try {
+        const clientes = await Pedido.aggregate([
+          {
+            $match: { estado: "COMPLETADO" },
+          },
+          {
+            $group: {
+              _id: "$cliente",
+              total: { $sum: "$total" },
+            },
+          },
+          {
+            $lookup: {
+              from: "clientes",
+              localField: "_id",
+              foreignField: "_id",
+              as: "cliente",
+            },
+          },
+        ]);
+
+        return clientes;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
   Mutation: {
     nuevoUsuario: async (_, { input }, ctx) => {

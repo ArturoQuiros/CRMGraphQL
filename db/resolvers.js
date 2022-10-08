@@ -189,6 +189,19 @@ const resolvers = {
         throw new Error(error);
       }
     },
+    buscarProducto: async (_, { texto }, ct) => {
+      try {
+        const productos = await Producto.find({
+          $text: {
+            $search: texto,
+          },
+        });
+
+        return productos;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
   },
   Mutation: {
     nuevoUsuario: async (_, { input }, ctx) => {

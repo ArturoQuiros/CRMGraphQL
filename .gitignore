@@ -3,7 +3,7 @@
 .vscode
 node_modules 
 variables.env
-
+.gitignore
 
 # dependencies
 /node_modules

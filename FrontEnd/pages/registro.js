@@ -11,6 +11,16 @@ const registro = () => {
       email: "",
       password: "",
     },
+    validationSchema: Yup.object({
+      nombre: Yup.string().required("El Nombre es obligatorio"),
+      apellido: Yup.string().required("El Apellido es obligatorio"),
+      email: Yup.string()
+        .email("El Email no es valido")
+        .required("El Email es obligatorio"),
+      password: Yup.string()
+        .required("La Contraseña es obligatoria")
+        .min(6, "La Contraseña debe tener al menos 6 caracteres"),
+    }),
     onSubmit: (valores) => {
       console.log("Enviando");
       console.log(valores);
@@ -44,8 +54,18 @@ const registro = () => {
                   placeholder="Nombre"
                   value={formik.values.nombre}
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                 ></input>
               </div>
+
+              {formik.touched.nombre && formik.errors.nombre ? (
+                <div className="my-2 bg-red-100 border-l-4  border-red-500 text-red-700 p-4">
+                  <p className="font-bold"> Error </p>
+                  <p> {formik.errors.nombre}</p>
+                </div>
+              ) : (
+                <p></p>
+              )}
 
               <div className="">
                 <label
@@ -63,6 +83,16 @@ const registro = () => {
                   onChange={formik.handleChange}
                 ></input>
               </div>
+
+              {formik.touched.apellido && formik.errors.apellido ? (
+                <div className="my-2 bg-red-100 border-l-4  border-red-500 text-red-700 p-4">
+                  <p className="font-bold"> Error </p>
+                  <p> {formik.errors.apellido}</p>
+                </div>
+              ) : (
+                <p></p>
+              )}
+
               <div className="">
                 <label
                   className="block text-gray-700 text-sm font-bold m-2"
@@ -77,8 +107,19 @@ const registro = () => {
                   placeholder="Email"
                   value={formik.values.email}
                   onChange={formik.handleChange}
+                  formNoValidate
                 ></input>
               </div>
+
+              {formik.touched.email && formik.errors.email ? (
+                <div className="my-2 bg-red-100 border-l-4  border-red-500 text-red-700 p-4">
+                  <p className="font-bold"> Error </p>
+                  <p> {formik.errors.email}</p>
+                </div>
+              ) : (
+                <p></p>
+              )}
+
               <div className="">
                 <label
                   className="block text-gray-700 text-sm font-bold m-2"
@@ -95,6 +136,16 @@ const registro = () => {
                   onChange={formik.handleChange}
                 ></input>
               </div>
+
+              {formik.touched.password && formik.errors.password ? (
+                <div className="my-2 bg-red-100 border-l-4  border-red-500 text-red-700 p-4">
+                  <p className="font-bold"> Error </p>
+                  <p> {formik.errors.password}</p>
+                </div>
+              ) : (
+                <p></p>
+              )}
+
               <input
                 type={"submit"}
                 className="bg-gray-800 w-full mt-5 p-2 text-white  hover:gb-gray-900"

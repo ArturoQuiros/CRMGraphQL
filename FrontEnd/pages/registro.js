@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import { Layout } from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -16,6 +17,8 @@ const REGISTRO = gql`
 `;
 
 const registro = () => {
+  //router
+  const router = useRouter();
   //state para el mensaje
   const [mensaje, setMensaje] = useState(null);
 
@@ -58,8 +61,15 @@ const registro = () => {
 
         console.log(data);
         //* Usuario creado correctamente
+        setMensaje("Usuario registrado correctamente!");
+
+        setTimeout(() => {
+          setMensaje(null);
+        }, 3000);
 
         //* Mandar al home
+
+        router.push("/login");
       } catch (error) {
         setMensaje(error.message.replace("GraphQL error: ", ""));
 

@@ -3,17 +3,7 @@ import { Layout } from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { useQuery, useMutation, gql } from "@apollo/client";
-
-const QUERY = gql`
-  query ObtenerProductos {
-    obtenerProductos {
-      nombre
-      existencia
-      precio
-    }
-  }
-`;
+import { useMutation, gql } from "@apollo/client";
 
 const registro = () => {
   //Validations
@@ -39,10 +29,6 @@ const registro = () => {
       console.log(valores);
     },
   });
-
-  //Query
-  const { data, loading, error } = useQuery(QUERY);
-  console.log(data, loading, error);
 
   return (
     <div>

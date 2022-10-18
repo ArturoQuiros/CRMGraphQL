@@ -5,7 +5,20 @@ import * as Yup from "yup";
 
 import { useMutation, gql } from "@apollo/client";
 
+const REGISTRO = gql`
+  mutation nuevoUsuario($input: UsuarioInput) {
+    nuevoUsuario(input: $input) {
+      email
+      nombre
+      apellido
+    }
+  }
+`;
+
 const registro = () => {
+  //Mutation
+  const [nuevoUsuario] = useMutation(REGISTRO);
+
   //Validations
   const formik = useFormik({
     initialValues: {
@@ -24,9 +37,29 @@ const registro = () => {
         .required("La Contraseña es obligatoria")
         .min(6, "La Contraseña debe tener al menos 6 caracteres"),
     }),
-    onSubmit: (valores) => {
-      console.log("Enviando");
-      console.log(valores);
+    onSubmit: async (valores) => {
+      //console.log("Enviando");
+      const { nombre, apellido, email, password } = valores;
+
+      try {
+        const { data } = await nuevoUsuario({
+          variables: {
+            input: {
+              nombre,
+              apellido,
+              email,
+              password,
+            },
+          },
+        });
+
+        console.log(data);
+        //* Usuario creado correctamente
+
+        //* Mandar al home
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 

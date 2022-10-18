@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Layout } from "../components/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -16,6 +16,9 @@ const REGISTRO = gql`
 `;
 
 const registro = () => {
+  //state para el mensaje
+  const [mensaje, setMensaje] = useState(null);
+
   //Mutation
   const [nuevoUsuario] = useMutation(REGISTRO);
 
@@ -58,14 +61,28 @@ const registro = () => {
 
         //* Mandar al home
       } catch (error) {
-        console.log(error);
+        setMensaje(error.message.replace("GraphQL error: ", ""));
+
+        setTimeout(() => {
+          setMensaje(null);
+        }, 3000);
       }
     },
   });
 
+  const mostrarMensaje = () => {
+    return (
+      <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center mx-auto ">
+        <p>{mensaje}</p>
+      </div>
+    );
+  };
+
   return (
     <div>
       <Layout>
+        {mensaje && mostrarMensaje()}
+
         <h1 className="text-2xl text-white font-light text-center ">
           Registro
         </h1>

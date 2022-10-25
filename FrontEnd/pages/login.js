@@ -48,15 +48,18 @@ const pedidos = () => {
           },
         });
 
-        console.log(data);
+        //* Guardar el JWT
+        const { token } = data.autenticarUsuario;
+        localStorage.setItem("token", token);
+        console.log(token);
+
         //* Usuario creado correctamente
         setMensaje("Usuario logeado correctamente!");
 
+        //* Mandar al index
         setTimeout(() => {
           setMensaje(null);
         }, 3000);
-
-        //* Mandar al index
         router.push("/");
       } catch (error) {
         setMensaje(error.message.replace("GraphQL error: ", ""));

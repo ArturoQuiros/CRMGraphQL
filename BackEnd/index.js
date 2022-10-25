@@ -15,12 +15,17 @@ const server = new ApolloServer({
   resolvers,
   context: async ({ req }) => {
     //console.log(req.headers["authorization"]);
+
+    console.log(req.headers);
     const token = req.headers["authorization"] || "";
 
     if (token) {
       try {
-        const usuario = await jwt.verify(token, process.env.JWT_SEED);
-        //console.log(usuario);
+        const usuario = await jwt.verify(
+          token.replace("Bearer ", ""),
+          process.env.JWT_SEED
+        );
+        console.log(usuario);
         return { usuario };
       } catch (error) {
         console.log("Error en JWT");

@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout } from "../components/Layout";
 
-const pedidos = () => {
+const clientes = () => {
   return (
     <div>
       <Layout>
@@ -11,4 +11,4 @@ const pedidos = () => {
   );
 };
 
-export default pedidos;
+export default clientes;

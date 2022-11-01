@@ -16,7 +16,6 @@ const OBTENER_CLIENTES = gql`
 const clientes = () => {
   //QUERY
   const { data, loading, error } = useQuery(OBTENER_CLIENTES);
-  console.log(data);
 
   return (
     <div>

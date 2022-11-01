@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { Sidebar } from "./Sidebar";
 import { useRouter } from "next/router";
+import { Header } from "./Header";
 
 export const Layout = ({ children }) => {
   const router = useRouter();
@@ -29,6 +30,8 @@ export const Layout = ({ children }) => {
             <Sidebar />
 
             <main className="sm:w-2/3 xl:s-4/5 sm:min-h-screen p-5">
+              <Header />
+
               {children}
             </main>
           </div>

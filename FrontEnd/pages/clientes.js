@@ -28,7 +28,7 @@ const clientes = () => {
           </div>
         ) : (
           <>
-            <h1 className="text-2xl text-gray-800 font-light"> Clientes</h1>
+            <h1 className="text-3xl text-gray-800 font-light"> Clientes</h1>
 
             <table className="table-auto shadow-md mt-10 w-full w-lg">
               <thead className="bg-gray-800">
@@ -40,13 +40,13 @@ const clientes = () => {
               </thead>
 
               <tbody className="bg-white">
-                {data.obtenerClientesVendedor.map((cliente) => {
+                {data.obtenerClientesVendedor.map((cliente) => (
                   <tr key={cliente.id}>
                     <td className="border px-4 py-2">{cliente.nombre}</td>
                     <td className="border px-4 py-2">{cliente.apellido}</td>
                     <td className="border px-4 py-2">{cliente.empresa}</td>
-                  </tr>;
-                })}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </>

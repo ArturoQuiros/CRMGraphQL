@@ -14,13 +14,40 @@ const NUEVO_CLIENTE = gql`
   }
 `;
 
+const OBTENER_CLIENTES_VENDEDOR = gql`
+  query ObtenerClientesVendedor {
+    obtenerClientesVendedor {
+      nombre
+      apellido
+      email
+      empresa
+    }
+  }
+`;
+
 const nuevoCliente = () => {
   //router
   const router = useRouter();
   //state para el mensaje
   const [mensaje, setMensaje] = useState(null);
   //Mutation
-  const [nuevoCliente] = useMutation(NUEVO_CLIENTE);
+  const [nuevoCliente] = useMutation(NUEVO_CLIENTE, {
+    update(cache, { data: { nuevoCliente } }) {
+      // Obtener el objeto de cache a actualizar
+      const { ObtenerClientesVendedor } = cache.readQuery({
+        query: OBTENER_CLIENTES_VENDEDOR,
+      });
+
+      // Reescribimos el cache
+      cache.writeQuery({
+        query: OBTENER_CLIENTES_VENDEDOR,
+        data: {
+          ObtenerClientesVendedor: [...ObtenerClientesVendedor, nuevoCliente],
+        },
+      });
+    },
+  });
+
   //Validations
   const formik = useFormik({
     initialValues: {
@@ -56,8 +83,6 @@ const nuevoCliente = () => {
           },
         });
 
-        console.log(data);
-
         //* Usuario creado correctamente
         setMensaje(`Cliente ${data.nuevoCliente.id} registrado correctamente!`);
 
@@ -66,7 +91,6 @@ const nuevoCliente = () => {
         }, 3000);
 
         //* Mandar a clientes
-
         router.push("/clientes");
       } catch (error) {
         setMensaje(error.message.replace("GraphQL error: ", ""));

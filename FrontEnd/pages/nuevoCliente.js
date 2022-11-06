@@ -14,9 +14,10 @@ const NUEVO_CLIENTE = gql`
   }
 `;
 
-const OBTENER_CLIENTES_VENDEDOR = gql`
+const OBTENER_CLIENTES_USUARIO = gql`
   query ObtenerClientesVendedor {
     obtenerClientesVendedor {
+      id
       nombre
       apellido
       email
@@ -35,12 +36,12 @@ const nuevoCliente = () => {
     update(cache, { data: { nuevoCliente } }) {
       // Obtener el objeto de cache a actualizar
       const { ObtenerClientesVendedor } = cache.readQuery({
-        query: OBTENER_CLIENTES_VENDEDOR,
+        query: OBTENER_CLIENTES_USUARIO,
       });
 
       // Reescribimos el cache
       cache.writeQuery({
-        query: OBTENER_CLIENTES_VENDEDOR,
+        query: OBTENER_CLIENTES_USUARIO,
         data: {
           ObtenerClientesVendedor: [...ObtenerClientesVendedor, nuevoCliente],
         },

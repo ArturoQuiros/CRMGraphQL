@@ -14,7 +14,7 @@ const LOGIN = gql`
   }
 `;
 
-const pedidos = () => {
+const login = () => {
   //router
   const router = useRouter();
   //state para el mensaje
@@ -159,4 +159,4 @@ const pedidos = () => {
   );
 };
 
-export default pedidos;
+export default login;

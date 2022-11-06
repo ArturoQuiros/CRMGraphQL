@@ -47,7 +47,6 @@ const nuevoCliente = () => {
       });
     },
   });
-
   //Validations
   const formik = useFormik({
     initialValues: {
@@ -67,7 +66,6 @@ const nuevoCliente = () => {
       telefono: Yup.string().required("El Número de Teléfono es obligatorio"),
     }),
     onSubmit: async (valores) => {
-      console.table(valores);
       const { nombre, apellido, empresa, email, telefono } = valores;
 
       try {
@@ -101,7 +99,7 @@ const nuevoCliente = () => {
       }
     },
   });
-
+  //Error/Success Message
   const mostrarMensaje = () => {
     return (
       <div className="bg-white py-2 px-3 w-full my-3 max-w-sm text-center mx-auto ">

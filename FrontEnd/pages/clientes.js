@@ -30,10 +30,6 @@ const clientes = () => {
     return <p>Loading...</p>;
   }
 
-  const vistaProtegida = () => {
-    router.push("/login");
-  };
-
   return (
     <>
       <Layout>

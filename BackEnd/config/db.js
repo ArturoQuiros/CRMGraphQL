@@ -12,7 +12,7 @@ const conectarDB = async () => {
     });
     console.log("Conectado a Mongo");
   } catch (error) {
-    console.log(error);
+    console.log("ERROR CONECTANDO A MONGO", error);
     process.exit(1);
   }
 };
